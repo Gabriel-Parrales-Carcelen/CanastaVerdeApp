@@ -15,4 +15,6 @@
     <string name="foto_login">Mujer tomando un producto de un estante del supermercado</string>
     <string name="login_titulo">¡Bienvenid@ de vuelta!</string>
     <string name="boton_iniciar_sesion">Iniciar sesión</string>
+    <string name="hint_busqueda">Busca productos o categorías</string>
+    <string name="boton_cerrar_sesion">Cerrar sesión</string>
 </resources>

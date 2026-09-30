@@ -75,6 +75,27 @@ class FirestoreRepository {
         }
     }
     /**
+     * Lee todos los documentos de la colección 'productos' de Firestore.
+     */
+    suspend fun obtenerProductos(): Result<List<Producto>> {
+        return try {
+            val snapshot = db.collection("productos").get().await()
+            val productos = snapshot.documents.mapNotNull { doc ->
+                val nombre = doc.getString("nombre") ?: return@mapNotNull null
+                Producto(
+                    id = doc.id,
+                    nombre = nombre,
+                    precio = doc.getDouble("precio") ?: 0.0,
+                    categoria = doc.getString("categoria") ?: "",
+                    imagenUrl = doc.getString("imagenUrl") ?: ""
+                )
+            }
+            Result.success(productos)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+    /**
      * Obtiene los datos del perfil del usuario logueado desde Firestore.
      */
     suspend fun obtenerPerfilUsuario(uid: String): Result<Map<String, Any>?> {
