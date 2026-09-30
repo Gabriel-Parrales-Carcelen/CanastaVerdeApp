@@ -12,4 +12,7 @@
     <string name="hint_correo">Correo electrónico</string>
     <string name="hint_contrasena">Contraseña</string>
     <string name="boton_crear_cuenta">Registrarse</string>
+    <string name="foto_login">Mujer tomando un producto de un estante del supermercado</string>
+    <string name="login_titulo">¡Bienvenid@ de vuelta!</string>
+    <string name="boton_iniciar_sesion">Iniciar sesión</string>
 </resources>

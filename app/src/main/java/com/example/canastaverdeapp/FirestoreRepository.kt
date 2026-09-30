@@ -60,7 +60,20 @@ class FirestoreRepository {
             Result.failure(e)
         }
     }
-
+    /**
+     * Inicia sesión con correo y contraseña en Firebase Authentication.
+     * Retorna Result.success con el UID si fue exitoso, o Result.failure con la excepción.
+     */
+    suspend fun iniciarSesion(email: String, password: String): Result<String> {
+        return try {
+            val authResult = auth.signInWithEmailAndPassword(email.trim(), password).await()
+            val uid = authResult.user?.uid
+                ?: throw Exception("No se pudo obtener la sesión del usuario.")
+            Result.success(uid)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
     /**
      * Obtiene los datos del perfil del usuario logueado desde Firestore.
      */

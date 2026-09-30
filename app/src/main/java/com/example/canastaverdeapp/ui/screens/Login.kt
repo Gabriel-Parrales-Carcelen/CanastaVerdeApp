@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -24,8 +25,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -41,36 +41,34 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.canastaverdeapp.R
 import com.example.canastaverdeapp.ui.theme.CanastaVerdeAppTheme
-import com.example.canastaverdeapp.ui.theme.GrisCampo
-import com.example.canastaverdeapp.ui.theme.GrisPlaceholder
 import com.example.canastaverdeapp.ui.theme.MarronTexto
 import com.example.canastaverdeapp.ui.theme.VerdeCanasta
 import com.google.firebase.FirebaseNetworkException
+import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
-import com.google.firebase.auth.FirebaseAuthUserCollisionException
-import com.google.firebase.auth.FirebaseAuthWeakPasswordException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import kotlinx.coroutines.launch
 
 @Composable
-fun RegistroScreen(
+fun LoginScreen(
     modifier: Modifier = Modifier,
     // Se conecta con FirestoreRepository desde MainActivity
-    onRegistrar: suspend (email: String, password: String) -> Result<String> =
+    onIniciarSesion: suspend (email: String, password: String) -> Result<String> =
         { _, _ -> Result.success("") },
-    onRegistroExitoso: () -> Unit = {}
+    onRegistrarseClick: () -> Unit = {},
+    onLoginExitoso: () -> Unit = {}
 ) {
     var email by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
@@ -81,28 +79,28 @@ fun RegistroScreen(
     val context = LocalContext.current
     val focusManager = LocalFocusManager.current
 
-    fun registrar() {
+    fun iniciarSesion() {
         val correo = email.trim()
         if (!Patterns.EMAIL_ADDRESS.matcher(correo).matches()) {
             error = "Ingresa un correo electrónico válido."
             return
         }
-        if (password.length < 6) {
-            error = "La contraseña debe tener al menos 6 caracteres."
+        if (password.isEmpty()) {
+            error = "Ingresa tu contraseña."
             return
         }
         focusManager.clearFocus()
         error = null
         cargando = true
         scope.launch {
-            val resultado = onRegistrar(correo, password)
+            val resultado = onIniciarSesion(correo, password)
             cargando = false
             resultado
                 .onSuccess {
-                    Toast.makeText(context, "¡Cuenta creada con éxito!", Toast.LENGTH_SHORT).show()
-                    onRegistroExitoso()
+                    Toast.makeText(context, "¡Bienvenid@ de vuelta!", Toast.LENGTH_SHORT).show()
+                    onLoginExitoso()
                 }
-                .onFailure { error = mensajeDeError(it) }
+                .onFailure { error = mensajeDeErrorLogin(it) }
         }
     }
 
@@ -116,10 +114,10 @@ fun RegistroScreen(
     ) {
         // Foto superior
         Image(
-            painter = painterResource(id = R.drawable.foto_registro),
-            contentDescription = stringResource(R.string.foto_registro),
+            painter = painterResource(id = R.drawable.foto_login),
+            contentDescription = stringResource(R.string.foto_login),
             contentScale = ContentScale.Crop,
-            alignment = Alignment.Center,
+            alignment = Alignment.TopCenter,
             modifier = Modifier
                 .fillMaxWidth()
                 .aspectRatio(0.95f)
@@ -134,16 +132,16 @@ fun RegistroScreen(
             Spacer(modifier = Modifier.height(24.dp))
 
             Text(
-                text = stringResource(R.string.registro_titulo).uppercase(),
+                text = stringResource(R.string.login_titulo).uppercase(),
                 color = MarronTexto,
                 fontFamily = FontFamily.Serif,
                 fontWeight = FontWeight.Bold,
-                fontSize = 22.sp,
-                lineHeight = 30.sp,
+                fontSize = 20.sp,
+                lineHeight = 28.sp,
                 textAlign = TextAlign.Center
             )
 
-            Spacer(modifier = Modifier.height(28.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
             CampoRegistro(
                 valor = email,
@@ -156,7 +154,7 @@ fun RegistroScreen(
                 )
             )
 
-            Spacer(modifier = Modifier.height(14.dp))
+            Spacer(modifier = Modifier.height(10.dp))
 
             CampoRegistro(
                 valor = password,
@@ -168,7 +166,7 @@ fun RegistroScreen(
                     keyboardType = KeyboardType.Password,
                     imeAction = ImeAction.Done
                 ),
-                keyboardActions = KeyboardActions(onDone = { registrar() })
+                keyboardActions = KeyboardActions(onDone = { iniciarSesion() })
             )
 
             error?.let {
@@ -181,10 +179,10 @@ fun RegistroScreen(
                 )
             }
 
-            Spacer(modifier = Modifier.height(28.dp))
+            Spacer(modifier = Modifier.height(20.dp))
 
             Button(
-                onClick = { registrar() },
+                onClick = { iniciarSesion() },
                 enabled = !cargando,
                 shape = RoundedCornerShape(16.dp),
                 colors = ButtonDefaults.buttonColors(
@@ -201,11 +199,11 @@ fun RegistroScreen(
                     CircularProgressIndicator(
                         color = Color.White,
                         strokeWidth = 2.dp,
-                        modifier = Modifier.height(24.dp).width(24.dp)
+                        modifier = Modifier.size(24.dp)
                     )
                 } else {
                     Text(
-                        text = stringResource(R.string.boton_crear_cuenta).uppercase(),
+                        text = stringResource(R.string.boton_iniciar_sesion).uppercase(),
                         fontFamily = FontFamily.Serif,
                         fontWeight = FontWeight.Bold,
                         fontSize = 20.sp,
@@ -214,7 +212,26 @@ fun RegistroScreen(
                 }
             }
 
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Text(
+                text = stringResource(R.string.primera_vez),
+                color = MarronTexto,
+                fontWeight = FontWeight.Bold,
+                fontSize = 14.sp
+            )
+
+            TextButton(onClick = onRegistrarseClick, enabled = !cargando) {
+                Text(
+                    text = stringResource(R.string.boton_registrarse),
+                    color = VerdeCanasta,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp,
+                    textDecoration = TextDecoration.Underline
+                )
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
 
             // "Powered by LATA"
             Image(
@@ -230,66 +247,19 @@ fun RegistroScreen(
     }
 }
 
-@Composable
-internal fun CampoRegistro(
-    valor: String,
-    onValorChange: (String) -> Unit,
-    placeholder: String,
-    keyboardOptions: KeyboardOptions,
-    modifier: Modifier = Modifier,
-    keyboardActions: KeyboardActions = KeyboardActions.Default,
-    visualTransformation: VisualTransformation = VisualTransformation.None,
-    enabled: Boolean = true
-) {
-    TextField(
-        value = valor,
-        onValueChange = onValorChange,
-        enabled = enabled,
-        singleLine = true,
-        placeholder = {
-            Text(
-                text = placeholder.uppercase(),
-                fontFamily = FontFamily.Serif,
-                fontWeight = FontWeight.Bold,
-                fontSize = 11.sp
-            )
-        },
-        textStyle = TextStyle(fontFamily = FontFamily.Serif, fontSize = 15.sp),
-        visualTransformation = visualTransformation,
-        keyboardOptions = keyboardOptions,
-        keyboardActions = keyboardActions,
-        shape = RoundedCornerShape(6.dp),
-        colors = TextFieldDefaults.colors(
-            focusedContainerColor = GrisCampo,
-            unfocusedContainerColor = GrisCampo,
-            disabledContainerColor = GrisCampo,
-            focusedIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent,
-            disabledIndicatorColor = Color.Transparent,
-            focusedTextColor = Color.Black,
-            unfocusedTextColor = Color.Black,
-            focusedPlaceholderColor = GrisPlaceholder,
-            unfocusedPlaceholderColor = GrisPlaceholder,
-            cursorColor = VerdeCanasta
-        ),
-        modifier = modifier.fillMaxWidth()
-    )
-}
-
 // Traduce los errores de Firebase a mensajes para el usuario.
-// Importante: WeakPassword va antes porque hereda de InvalidCredentials.
-private fun mensajeDeError(e: Throwable): String = when (e) {
-    is FirebaseAuthUserCollisionException -> "Este correo ya está registrado."
-    is FirebaseAuthWeakPasswordException -> "La contraseña es muy débil. Usa al menos 6 caracteres."
-    is FirebaseAuthInvalidCredentialsException -> "El correo electrónico no es válido."
+private fun mensajeDeErrorLogin(e: Throwable): String = when (e) {
+    is FirebaseAuthInvalidUserException,
+    is FirebaseAuthInvalidCredentialsException -> "Correo o contraseña incorrectos."
+    is FirebaseTooManyRequestsException -> "Demasiados intentos. Inténtalo más tarde."
     is FirebaseNetworkException -> "Sin conexión. Revisa tu internet e inténtalo de nuevo."
-    else -> "No se pudo crear la cuenta. Inténtalo de nuevo."
+    else -> "No se pudo iniciar sesión. Inténtalo de nuevo."
 }
 
 @Preview(showBackground = true, widthDp = 360, heightDp = 780)
 @Composable
-fun RegistroScreenPreview() {
+fun LoginScreenPreview() {
     CanastaVerdeAppTheme {
-        RegistroScreen()
+        LoginScreen()
     }
 }

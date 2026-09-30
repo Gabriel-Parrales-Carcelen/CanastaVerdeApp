@@ -12,12 +12,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import com.example.canastaverdeapp.ui.screens.BienvenidaScreen
+import com.example.canastaverdeapp.ui.screens.LoginScreen
 import com.example.canastaverdeapp.ui.screens.RegistroScreen
 import com.example.canastaverdeapp.ui.screens.SplashScreen
 import com.example.canastaverdeapp.ui.theme.CanastaVerdeAppTheme
 import kotlinx.coroutines.delay
 
-enum class Pantalla { Splash, Bienvenida, Registro }
+enum class Pantalla { Splash, Bienvenida, Login, Registro }
 
 class MainActivity : ComponentActivity() {
 
@@ -46,8 +47,8 @@ class MainActivity : ComponentActivity() {
                     }
                 }
 
-                // El botón "atrás" en Registro vuelve a Bienvenida
-                BackHandler(enabled = pantalla == Pantalla.Registro) {
+                // El botón "atrás" en Login o Registro vuelve a Bienvenida
+                BackHandler(enabled = pantalla == Pantalla.Login || pantalla == Pantalla.Registro) {
                     pantalla = Pantalla.Bienvenida
                 }
 
@@ -55,8 +56,16 @@ class MainActivity : ComponentActivity() {
                     Pantalla.Splash -> SplashScreen()
 
                     Pantalla.Bienvenida -> BienvenidaScreen(
-                        onIngresarClick = { /* pendiente: ir a Login */ },
+                        onIngresarClick = { pantalla = Pantalla.Login },
                         onRegistrarseClick = { pantalla = Pantalla.Registro }
+                    )
+
+                    Pantalla.Login -> LoginScreen(
+                        onIniciarSesion = { email, password ->
+                            repository.iniciarSesion(email, password)
+                        },
+                        onRegistrarseClick = { pantalla = Pantalla.Registro },
+                        onLoginExitoso = { /* pendiente: ir a la pantalla principal */ }
                     )
 
                     Pantalla.Registro -> RegistroScreen(
