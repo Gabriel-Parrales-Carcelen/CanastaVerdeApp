@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">CanastaVerdeApp</string>
+    <string name="app_name">Canasta Verde</string>
+    <string name="logo_canasta_verde">Logo de Canasta Verde</string>
+    <string name="logo_lata">Powered by LATA</string>
+    <string name="foto_bienvenida">Mujer comprando frutas y verduras con su teléfono</string>
+    <string name="bienvenida_titulo">¿Listo para comenzar una vida más verde?</string>
+    <string name="boton_ingresar">Ingresar</string>
+    <string name="primera_vez">¿Primera vez por acá?</string>
+    <string name="boton_registrarse">Regístrate aquí</string>
 </resources>
