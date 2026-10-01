@@ -7,3 +7,5 @@ data class Producto(
     val categoria: String = "Refrigerados",
     val imagenUrl: String = "https://res.cloudinary.com/x2lk4yhg/image/upload/f_auto,q_auto/AceiteOrganico"
 )
+
+// xd
