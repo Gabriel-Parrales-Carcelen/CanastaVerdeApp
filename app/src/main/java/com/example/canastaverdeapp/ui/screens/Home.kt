@@ -50,6 +50,8 @@ import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -93,10 +95,14 @@ import java.util.Locale
 @Composable
 fun HomeScreen(
     correoUsuario: String,
+    carritoViewModel: CarritoViewModel,
     onCerrarSesion: () -> Unit,
     onCarritoClick: () -> Unit = {},
     viewModel: HomeViewModel = viewModel()
 ) {
+    val itemsCarrito by carritoViewModel.items.collectAsState()
+    val cantidades = itemsCarrito.associate { it.producto.id to it.cantidad }
+
     val productosFiltrados = filtrarProductos(
         productos = viewModel.productos,
         busqueda = viewModel.busqueda,
@@ -111,11 +117,15 @@ fun HomeScreen(
         error = viewModel.error,
         busqueda = viewModel.busqueda,
         categoriaSeleccionada = viewModel.categoriaSeleccionada,
-        cantidades = viewModel.cantidades,
+        cantidades = cantidades,
         onBusquedaChange = { viewModel.busqueda = it },
         onCategoriaClick = viewModel::seleccionarCategoria,
-        onAgregar = viewModel::agregar,
-        onQuitar = viewModel::quitar,
+        onAgregar = { producto ->
+            carritoViewModel.agregarProducto(producto)
+        },
+        onQuitar = { producto ->
+            carritoViewModel.disminuirCantidad(producto.id)
+        },
         onReintentar = viewModel::cargarProductos,
         onCarritoClick = onCarritoClick,
         onCerrarSesion = {
@@ -279,7 +289,10 @@ fun HomeContent(
                 }
             }
 
-            BarraInferior(onCarritoClick = onCarritoClick)
+            BarraInferior(
+                cantidadTotal = cantidades.values.sum(),
+                onCarritoClick = onCarritoClick
+            )
         }
     }
 }
@@ -288,7 +301,7 @@ fun HomeContent(
 // Menú lateral
 // ---------------------------------------------------------------
 @Composable
-private fun ContenidoMenu(
+fun ContenidoMenu(
     correo: String,
     onCerrarMenu: () -> Unit,
     onCerrarSesion: () -> Unit
@@ -402,7 +415,7 @@ private fun ContenidoMenu(
 // Buscador
 // ---------------------------------------------------------------
 @Composable
-private fun BarraBusqueda(
+fun BarraBusqueda(
     valor: String,
     onValorChange: (String) -> Unit,
     modifier: Modifier = Modifier
@@ -693,10 +706,13 @@ private fun ProductoCard(
 }
 
 // ---------------------------------------------------------------
-// Barra verde inferior con el carrito (sin acción por ahora)
+// Barra verde inferior con el carrito e indicador de cantidad (badge)
 // ---------------------------------------------------------------
 @Composable
-private fun BarraInferior(onCarritoClick: () -> Unit) {
+private fun BarraInferior(
+    cantidadTotal: Int,
+    onCarritoClick: () -> Unit
+) {
     val insetInferior = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
 
     Box(
@@ -727,6 +743,26 @@ private fun BarraInferior(onCarritoClick: () -> Unit) {
                 tint = VerdeCanasta,
                 modifier = Modifier.size(38.dp)
             )
+
+            if (cantidadTotal > 0) {
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .padding(top = 8.dp, end = 8.dp)
+                        .size(22.dp)
+                        .clip(CircleShape)
+                        .background(Color(0xFFE53935)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = if (cantidadTotal > 99) "99+" else cantidadTotal.toString(),
+                        color = Color.White,
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center
+                    )
+                }
+            }
         }
     }
 }

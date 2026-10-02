@@ -14,6 +14,8 @@ import androidx.compose.runtime.setValue
 import com.example.canastaverdeapp.notification.NotificationHelper
 import com.example.canastaverdeapp.notification.RequestNotificationPermission
 import com.example.canastaverdeapp.ui.screens.BienvenidaScreen
+import com.example.canastaverdeapp.ui.screens.CarritoScreen
+import com.example.canastaverdeapp.ui.screens.CarritoViewModel
 import com.example.canastaverdeapp.ui.screens.HomeScreen
 import com.example.canastaverdeapp.ui.screens.LoginScreen
 import com.example.canastaverdeapp.ui.screens.RegistroScreen
@@ -21,11 +23,12 @@ import com.example.canastaverdeapp.ui.screens.SplashScreen
 import com.example.canastaverdeapp.ui.theme.CanastaVerdeAppTheme
 import kotlinx.coroutines.delay
 
-enum class Pantalla { Splash, Bienvenida, Login, Registro, Home }
+enum class Pantalla { Splash, Bienvenida, Login, Registro, Home, Carrito }
 
 class MainActivity : ComponentActivity() {
 
     private val repository by lazy { FirestoreRepository() }
+    private val carritoViewModel by lazy { CarritoViewModel() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,11 +91,25 @@ class MainActivity : ComponentActivity() {
 
                     Pantalla.Home -> HomeScreen(
                         correoUsuario = repository.currentUser?.email ?: "",
+                        carritoViewModel = carritoViewModel,
                         onCerrarSesion = {
                             repository.cerrarSesion()
+                            carritoViewModel.vaciarCarrito()
                             pantalla = Pantalla.Login
                         },
-                        onCarritoClick = { /* pendiente: carrito */ }
+                        onCarritoClick = { pantalla = Pantalla.Carrito }
+                    )
+
+                    Pantalla.Carrito -> CarritoScreen(
+                        correoUsuario = repository.currentUser?.email ?: "",
+                        carritoViewModel = carritoViewModel,
+                        repository = repository,
+                        onVolverAlMenu = { pantalla = Pantalla.Home },
+                        onCerrarSesion = {
+                            repository.cerrarSesion()
+                            carritoViewModel.vaciarCarrito()
+                            pantalla = Pantalla.Login
+                        }
                     )
                 }
             }
