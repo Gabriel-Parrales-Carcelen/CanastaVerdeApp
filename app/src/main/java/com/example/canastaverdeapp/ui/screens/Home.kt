@@ -608,8 +608,8 @@ private fun ProductoCard(
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(120.dp)
-                .background(Color.White)
+                .height(110.dp)
+
         )
 
         Column(modifier = Modifier.padding(horizontal = 10.dp, vertical = 8.dp)) {
