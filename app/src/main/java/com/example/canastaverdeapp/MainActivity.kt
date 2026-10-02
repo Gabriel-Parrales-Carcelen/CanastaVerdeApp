@@ -11,6 +11,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import com.example.canastaverdeapp.notification.NotificationHelper
+import com.example.canastaverdeapp.notification.RequestNotificationPermission
 import com.example.canastaverdeapp.ui.screens.BienvenidaScreen
 import com.example.canastaverdeapp.ui.screens.HomeScreen
 import com.example.canastaverdeapp.ui.screens.LoginScreen
@@ -27,6 +29,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        NotificationHelper.createNotificationChannel(this)
         enableEdgeToEdge(
             statusBarStyle = SystemBarStyle.light(
                 android.graphics.Color.TRANSPARENT,
@@ -39,6 +42,7 @@ class MainActivity : ComponentActivity() {
         )
         setContent {
             CanastaVerdeAppTheme {
+                RequestNotificationPermission()
                 var pantalla by rememberSaveable { mutableStateOf(Pantalla.Splash) }
 
                 LaunchedEffect(pantalla) {

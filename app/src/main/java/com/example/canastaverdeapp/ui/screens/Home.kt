@@ -59,7 +59,9 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import com.example.canastaverdeapp.notification.NotificationHelper
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -336,6 +338,34 @@ private fun ContenidoMenu(
 
         Spacer(modifier = Modifier.height(14.dp))
 
+        val context = LocalContext.current
+
+        Button(
+            onClick = {
+                NotificationHelper.showNotification(
+                    context = context,
+                    title = "¡Oferta en Canasta Verde! 🧺",
+                    body = "¡Aprovecha un 20% de descuento en frutas y verduras seleccionadas hoy!"
+                )
+            },
+            shape = CircleShape,
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color.White,
+                contentColor = VerdeCanasta
+            ),
+            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 0.dp),
+            modifier = Modifier.height(30.dp)
+        ) {
+            Text(
+                text = "PROBAR NOTIFICACIÓN",
+                fontFamily = FontFamily.Serif,
+                fontWeight = FontWeight.Bold,
+                fontSize = 11.sp
+            )
+        }
+
+        Spacer(modifier = Modifier.height(10.dp))
+
         Button(
             onClick = onCerrarSesion,
             shape = CircleShape,
@@ -584,7 +614,7 @@ private fun ProductoCard(
 
         Column(modifier = Modifier.padding(horizontal = 10.dp, vertical = 8.dp)) {
             Text(
-                text = String.format(Locale.US, "\$%.2f", producto.precio),
+                text = "$${String.format(Locale.US, "%.2f", producto.precio)}",
                 color = Color.Black,
                 fontWeight = FontWeight.Bold,
                 fontSize = 16.sp
