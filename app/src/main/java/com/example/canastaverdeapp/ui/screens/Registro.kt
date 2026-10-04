@@ -54,10 +54,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.canastaverdeapp.R
 import com.example.canastaverdeapp.ui.theme.CanastaVerdeAppTheme
-import com.example.canastaverdeapp.ui.theme.GrisCampo
-import com.example.canastaverdeapp.ui.theme.GrisPlaceholder
-import com.example.canastaverdeapp.ui.theme.MarronTexto
-import com.example.canastaverdeapp.ui.theme.VerdeCanasta
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
@@ -109,7 +105,7 @@ fun RegistroScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(MaterialTheme.colorScheme.background)
             .imePadding()
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -135,7 +131,7 @@ fun RegistroScreen(
 
             Text(
                 text = stringResource(R.string.registro_titulo).uppercase(),
-                color = MarronTexto,
+                color = MaterialTheme.colorScheme.tertiary,
                 fontFamily = FontFamily.Serif,
                 fontWeight = FontWeight.Bold,
                 fontSize = 22.sp,
@@ -188,10 +184,10 @@ fun RegistroScreen(
                 enabled = !cargando,
                 shape = RoundedCornerShape(16.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = VerdeCanasta,
-                    contentColor = Color.White,
-                    disabledContainerColor = VerdeCanasta.copy(alpha = 0.6f),
-                    disabledContentColor = Color.White
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary,
+                    disabledContainerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.6f),
+                    disabledContentColor = MaterialTheme.colorScheme.onPrimary
                 ),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -199,7 +195,7 @@ fun RegistroScreen(
             ) {
                 if (cargando) {
                     CircularProgressIndicator(
-                        color = Color.White,
+                        color = MaterialTheme.colorScheme.onPrimary,
                         strokeWidth = 2.dp,
                         modifier = Modifier.height(24.dp).width(24.dp)
                     )
@@ -254,23 +250,27 @@ internal fun CampoRegistro(
                 fontSize = 11.sp
             )
         },
-        textStyle = TextStyle(fontFamily = FontFamily.Serif, fontSize = 15.sp),
+        textStyle = TextStyle(
+            fontFamily = FontFamily.Serif,
+            fontSize = 15.sp,
+            color = MaterialTheme.colorScheme.onSurface
+        ),
         visualTransformation = visualTransformation,
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
         shape = RoundedCornerShape(6.dp),
         colors = TextFieldDefaults.colors(
-            focusedContainerColor = GrisCampo,
-            unfocusedContainerColor = GrisCampo,
-            disabledContainerColor = GrisCampo,
+            focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+            unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+            disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent,
-            focusedTextColor = Color.Black,
-            unfocusedTextColor = Color.Black,
-            focusedPlaceholderColor = GrisPlaceholder,
-            unfocusedPlaceholderColor = GrisPlaceholder,
-            cursorColor = VerdeCanasta
+            focusedTextColor = MaterialTheme.colorScheme.onSurface,
+            unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
+            focusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+            unfocusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+            cursorColor = MaterialTheme.colorScheme.primary
         ),
         modifier = modifier.fillMaxWidth()
     )

@@ -17,4 +17,18 @@
     <string name="boton_iniciar_sesion">Iniciar sesión</string>
     <string name="hint_busqueda">Busca productos o categorías</string>
     <string name="boton_cerrar_sesion">Cerrar sesión</string>
+
+    <!-- Home Screen -->
+    <string name="home_descripcion_abrir_menu">Abrir menú</string>
+    <string name="home_descripcion_cerrar_menu">Cerrar menú</string>
+    <string name="home_descripcion_buscar">Buscar</string>
+    <string name="home_descripcion_anterior">Anterior</string>
+    <string name="home_descripcion_siguiente">Siguiente</string>
+    <string name="home_descripcion_carrito">Carrito</string>
+    <string name="home_boton_reintentar">Reintentar</string>
+    <string name="home_boton_probar_notificacion">Probar notificación</string>
+    <string name="home_no_se_encontraron_productos">No se encontraron productos.</string>
+    <string name="home_no_hay_productos_disponibles">Aún no hay productos disponibles.</string>
+    <string name="home_simbolo_mas">+</string>
+    <string name="home_simbolo_menos">-</string>
 </resources>
