@@ -13,12 +13,12 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -31,8 +31,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.canastaverdeapp.R
 import com.example.canastaverdeapp.ui.theme.CanastaVerdeAppTheme
-import com.example.canastaverdeapp.ui.theme.MarronTexto
-import com.example.canastaverdeapp.ui.theme.VerdeCanasta
 
 @Composable
 fun BienvenidaScreen(
@@ -43,7 +41,7 @@ fun BienvenidaScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(MaterialTheme.colorScheme.background)
     ) {
         // Foto superior
         Image(
@@ -68,7 +66,7 @@ fun BienvenidaScreen(
 
             Text(
                 text = stringResource(R.string.bienvenida_titulo).uppercase(),
-                color = MarronTexto,
+                color = MaterialTheme.colorScheme.onBackground,
                 fontFamily = FontFamily.Serif,
                 fontWeight = FontWeight.Bold,
                 fontSize = 24.sp,
@@ -82,8 +80,8 @@ fun BienvenidaScreen(
                 onClick = onIngresarClick,
                 shape = RoundedCornerShape(16.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = VerdeCanasta,
-                    contentColor = Color.White
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary
                 ),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -102,7 +100,7 @@ fun BienvenidaScreen(
 
             Text(
                 text = stringResource(R.string.primera_vez),
-                color = MarronTexto,
+                color = MaterialTheme.colorScheme.onBackground,
                 fontWeight = FontWeight.Bold,
                 fontSize = 14.sp
             )
@@ -110,7 +108,7 @@ fun BienvenidaScreen(
             TextButton(onClick = onRegistrarseClick) {
                 Text(
                     text = stringResource(R.string.boton_registrarse),
-                    color = VerdeCanasta,
+                    color = MaterialTheme.colorScheme.primary,
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp,
                     textDecoration = TextDecoration.Underline

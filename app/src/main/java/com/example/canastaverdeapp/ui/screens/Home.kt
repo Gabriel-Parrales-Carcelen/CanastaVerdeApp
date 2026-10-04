@@ -45,6 +45,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Text
@@ -54,7 +55,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -78,12 +78,6 @@ import coil3.compose.AsyncImage
 import com.example.canastaverdeapp.Producto
 import com.example.canastaverdeapp.R
 import com.example.canastaverdeapp.ui.theme.CanastaVerdeAppTheme
-import com.example.canastaverdeapp.ui.theme.GrisCampo
-import com.example.canastaverdeapp.ui.theme.GrisPlaceholder
-import com.example.canastaverdeapp.ui.theme.GrisTarjeta
-import com.example.canastaverdeapp.ui.theme.RojoCerrarSesion
-import com.example.canastaverdeapp.ui.theme.VerdeCanasta
-import com.example.canastaverdeapp.ui.theme.VerdeMedio
 import kotlinx.coroutines.launch
 import java.util.Locale
 
@@ -162,8 +156,8 @@ fun HomeContent(
             ModalDrawerSheet(
                 modifier = Modifier.width(250.dp),
                 drawerShape = RectangleShape,
-                drawerContainerColor = VerdeCanasta,
-                drawerContentColor = Color.White
+                drawerContainerColor = MaterialTheme.colorScheme.primary,
+                drawerContentColor = MaterialTheme.colorScheme.onPrimary
             ) {
                 ContenidoMenu(
                     correo = correoUsuario,
@@ -176,7 +170,7 @@ fun HomeContent(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.White)
+                .background(MaterialTheme.colorScheme.background)
         ) {
             // Barra superior: menú + buscador
             Row(
@@ -190,8 +184,8 @@ fun HomeContent(
                 IconButton(onClick = { scope.launch { drawerState.open() } }) {
                     Icon(
                         imageVector = Icons.Default.Menu,
-                        contentDescription = "Abrir menú",
-                        tint = VerdeCanasta,
+                        contentDescription = stringResource(R.string.home_descripcion_abrir_menu),
+                        tint = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.size(34.dp)
                     )
                 }
@@ -230,7 +224,7 @@ fun HomeContent(
                                 .padding(32.dp),
                             contentAlignment = Alignment.Center
                         ) {
-                            CircularProgressIndicator(color = VerdeCanasta)
+                            CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
                         }
                     }
 
@@ -243,24 +237,27 @@ fun HomeContent(
                         ) {
                             Text(
                                 text = error,
-                                color = Color.Black,
+                                color = MaterialTheme.colorScheme.onBackground,
                                 textAlign = TextAlign.Center
                             )
                             Spacer(modifier = Modifier.height(12.dp))
                             Button(
                                 onClick = onReintentar,
-                                colors = ButtonDefaults.buttonColors(containerColor = VerdeCanasta)
+                                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
                             ) {
-                                Text("Reintentar", color = Color.White)
+                                Text(
+                                    text = stringResource(R.string.home_boton_reintentar),
+                                    color = MaterialTheme.colorScheme.onPrimary
+                                )
                             }
                         }
                     }
 
                     productos.isEmpty() -> item(span = { GridItemSpan(maxLineSpan) }) {
                         Text(
-                            text = if (hayProductosEnTotal) "No se encontraron productos."
-                            else "Aún no hay productos disponibles.",
-                            color = Color.Black,
+                            text = if (hayProductosEnTotal) stringResource(R.string.home_no_se_encontraron_productos)
+                            else stringResource(R.string.home_no_hay_productos_disponibles),
+                            color = MaterialTheme.colorScheme.onBackground,
                             textAlign = TextAlign.Center,
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -301,8 +298,8 @@ private fun ContenidoMenu(
         IconButton(onClick = onCerrarMenu) {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                contentDescription = "Cerrar menú",
-                tint = Color.White,
+                contentDescription = stringResource(R.string.home_descripcion_cerrar_menu),
+                tint = MaterialTheme.colorScheme.onPrimary,
                 modifier = Modifier.size(40.dp)
             )
         }
@@ -314,20 +311,20 @@ private fun ContenidoMenu(
                 modifier = Modifier
                     .size(34.dp)
                     .clip(CircleShape)
-                    .background(Color.White),
+                    .background(MaterialTheme.colorScheme.surface),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     imageVector = Icons.Default.Person,
                     contentDescription = null,
-                    tint = VerdeCanasta,
+                    tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.size(24.dp)
                 )
             }
             Spacer(modifier = Modifier.width(8.dp))
             Text(
                 text = correo,
-                color = Color.White,
+                color = MaterialTheme.colorScheme.onPrimary,
                 fontWeight = FontWeight.Bold,
                 fontSize = 12.sp,
                 maxLines = 1,
@@ -350,14 +347,14 @@ private fun ContenidoMenu(
             },
             shape = CircleShape,
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color.White,
-                contentColor = VerdeCanasta
+                containerColor = MaterialTheme.colorScheme.surface,
+                contentColor = MaterialTheme.colorScheme.primary
             ),
             contentPadding = PaddingValues(horizontal = 16.dp, vertical = 0.dp),
             modifier = Modifier.height(30.dp)
         ) {
             Text(
-                text = "PROBAR NOTIFICACIÓN",
+                text = stringResource(R.string.home_boton_probar_notificacion).uppercase(),
                 fontFamily = FontFamily.Serif,
                 fontWeight = FontWeight.Bold,
                 fontSize = 11.sp
@@ -370,8 +367,8 @@ private fun ContenidoMenu(
             onClick = onCerrarSesion,
             shape = CircleShape,
             colors = ButtonDefaults.buttonColors(
-                containerColor = RojoCerrarSesion,
-                contentColor = Color.White
+                containerColor = MaterialTheme.colorScheme.error,
+                contentColor = MaterialTheme.colorScheme.onError
             ),
             contentPadding = PaddingValues(horizontal = 16.dp, vertical = 0.dp),
             modifier = Modifier.height(30.dp)
@@ -413,8 +410,8 @@ private fun BarraBusqueda(
         value = valor,
         onValueChange = onValorChange,
         singleLine = true,
-        textStyle = TextStyle(fontSize = 14.sp, color = Color.Black),
-        cursorBrush = SolidColor(VerdeCanasta),
+        textStyle = TextStyle(fontSize = 14.sp, color = MaterialTheme.colorScheme.onSurface),
+        cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
         keyboardActions = KeyboardActions(onSearch = { focusManager.clearFocus() }),
         modifier = modifier,
@@ -424,7 +421,7 @@ private fun BarraBusqueda(
                     .fillMaxWidth()
                     .height(42.dp)
                     .clip(CircleShape)
-                    .background(GrisCampo)
+                    .background(MaterialTheme.colorScheme.secondaryContainer)
                     .padding(start = 16.dp, end = 4.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -435,7 +432,7 @@ private fun BarraBusqueda(
                     if (valor.isEmpty()) {
                         Text(
                             text = stringResource(R.string.hint_busqueda).uppercase(),
-                            color = GrisPlaceholder,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
                             fontFamily = FontFamily.Serif,
                             fontWeight = FontWeight.Bold,
                             fontSize = 11.sp,
@@ -448,14 +445,14 @@ private fun BarraBusqueda(
                     modifier = Modifier
                         .size(34.dp)
                         .clip(CircleShape)
-                        .background(VerdeCanasta)
+                        .background(MaterialTheme.colorScheme.primary)
                         .clickable { focusManager.clearFocus() },
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
                         imageVector = Icons.Default.Search,
-                        contentDescription = "Buscar",
-                        tint = Color.White,
+                        contentDescription = stringResource(R.string.home_descripcion_buscar),
+                        tint = MaterialTheme.colorScheme.onPrimary,
                         modifier = Modifier.size(20.dp)
                     )
                 }
@@ -495,7 +492,7 @@ private fun BannerCarrusel(modifier: Modifier = Modifier) {
 
         FlechaBanner(
             icono = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-            descripcion = "Anterior",
+            descripcion = stringResource(R.string.home_descripcion_anterior),
             modifier = Modifier
                 .align(Alignment.CenterStart)
                 .padding(start = 6.dp)
@@ -509,7 +506,7 @@ private fun BannerCarrusel(modifier: Modifier = Modifier) {
 
         FlechaBanner(
             icono = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-            descripcion = "Siguiente",
+            descripcion = stringResource(R.string.home_descripcion_siguiente),
             modifier = Modifier
                 .align(Alignment.CenterEnd)
                 .padding(end = 6.dp)
@@ -534,14 +531,14 @@ private fun FlechaBanner(
         modifier = modifier
             .size(26.dp)
             .clip(CircleShape)
-            .background(VerdeCanasta)
+            .background(MaterialTheme.colorScheme.primary)
             .clickable(onClick = onClick),
         contentAlignment = Alignment.Center
     ) {
         Icon(
             imageVector = icono,
             contentDescription = descripcion,
-            tint = Color.White,
+            tint = MaterialTheme.colorScheme.onPrimary,
             modifier = Modifier.size(20.dp)
         )
     }
@@ -566,15 +563,15 @@ private fun FilaCategorias(
                     .weight(1f)
                     .height(38.dp)
                     .clip(CircleShape)
-                    .background(if (activa) VerdeCanasta else Color.White)
-                    .border(1.dp, VerdeCanasta, CircleShape)
+                    .background(if (activa) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface)
+                    .border(1.dp, MaterialTheme.colorScheme.primary, CircleShape)
                     .clickable { onClick(categoria) }
                     .padding(horizontal = 6.dp),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
                     text = categoria,
-                    color = if (activa) Color.White else VerdeCanasta,
+                    color = if (activa) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.primary,
                     fontWeight = FontWeight.Bold,
                     fontSize = 11.sp,
                     lineHeight = 13.sp,
@@ -600,7 +597,7 @@ private fun ProductoCard(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(10.dp))
-            .background(GrisTarjeta)
+            .background(MaterialTheme.colorScheme.surfaceVariant)
     ) {
         AsyncImage(
             model = producto.imagenUrl,
@@ -609,13 +606,12 @@ private fun ProductoCard(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(110.dp)
-
         )
 
         Column(modifier = Modifier.padding(horizontal = 10.dp, vertical = 8.dp)) {
             Text(
                 text = "$${String.format(Locale.US, "%.2f", producto.precio)}",
-                color = Color.Black,
+                color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.Bold,
                 fontSize = 16.sp
             )
@@ -634,18 +630,23 @@ private fun ProductoCard(
                         modifier = Modifier
                             .size(30.dp)
                             .clip(CircleShape)
-                            .background(VerdeMedio)
+                            .background(MaterialTheme.colorScheme.secondary)
                             .clickable(onClick = onAgregar),
                         contentAlignment = Alignment.Center
                     ) {
-                        Text("+", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                        Text(
+                            text = stringResource(R.string.home_simbolo_mas),
+                            color = MaterialTheme.colorScheme.onSecondary,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 20.sp
+                        )
                     }
                 } else {
                     Row(
                         modifier = Modifier
                             .fillMaxSize()
                             .clip(CircleShape)
-                            .background(VerdeMedio),
+                            .background(MaterialTheme.colorScheme.secondary),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Box(
@@ -654,11 +655,16 @@ private fun ProductoCard(
                                 .clickable(onClick = onQuitar),
                             contentAlignment = Alignment.Center
                         ) {
-                            Text("-", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                            Text(
+                                text = stringResource(R.string.home_simbolo_menos),
+                                color = MaterialTheme.colorScheme.onSecondary,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 20.sp
+                            )
                         }
                         Text(
                             text = cantidad.toString(),
-                            color = Color.White,
+                            color = MaterialTheme.colorScheme.onSecondary,
                             fontWeight = FontWeight.Bold,
                             fontSize = 15.sp,
                             textAlign = TextAlign.Center,
@@ -670,7 +676,12 @@ private fun ProductoCard(
                                 .clickable(onClick = onAgregar),
                             contentAlignment = Alignment.Center
                         ) {
-                            Text("+", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                            Text(
+                                text = stringResource(R.string.home_simbolo_mas),
+                                color = MaterialTheme.colorScheme.onSecondary,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 20.sp
+                            )
                         }
                     }
                 }
@@ -680,7 +691,7 @@ private fun ProductoCard(
 
             Text(
                 text = producto.nombre,
-                color = Color.Black,
+                color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 15.sp,
                 lineHeight = 19.sp,
@@ -709,22 +720,22 @@ private fun BarraInferior(onCarritoClick: () -> Unit) {
                 .align(Alignment.BottomCenter)
                 .fillMaxWidth()
                 .height(44.dp + insetInferior)
-                .background(VerdeCanasta)
+                .background(MaterialTheme.colorScheme.primary)
         )
         Box(
             modifier = Modifier
                 .align(Alignment.TopCenter)
                 .size(72.dp)
                 .clip(CircleShape)
-                .background(Color.White)
-                .border(4.dp, VerdeCanasta, CircleShape)
+                .background(MaterialTheme.colorScheme.surface)
+                .border(4.dp, MaterialTheme.colorScheme.primary, CircleShape)
                 .clickable(onClick = onCarritoClick),
             contentAlignment = Alignment.Center
         ) {
             Icon(
                 imageVector = Icons.Default.ShoppingCart,
-                contentDescription = "Carrito",
-                tint = VerdeCanasta,
+                contentDescription = stringResource(R.string.home_descripcion_carrito),
+                tint = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.size(38.dp)
             )
         }

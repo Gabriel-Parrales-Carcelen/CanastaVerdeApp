@@ -35,7 +35,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
@@ -53,8 +52,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.canastaverdeapp.R
 import com.example.canastaverdeapp.ui.theme.CanastaVerdeAppTheme
-import com.example.canastaverdeapp.ui.theme.MarronTexto
-import com.example.canastaverdeapp.ui.theme.VerdeCanasta
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -107,7 +104,7 @@ fun LoginScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(MaterialTheme.colorScheme.background)
             .imePadding()
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -133,7 +130,7 @@ fun LoginScreen(
 
             Text(
                 text = stringResource(R.string.login_titulo).uppercase(),
-                color = MarronTexto,
+                color = MaterialTheme.colorScheme.tertiary,
                 fontFamily = FontFamily.Serif,
                 fontWeight = FontWeight.Bold,
                 fontSize = 20.sp,
@@ -186,10 +183,10 @@ fun LoginScreen(
                 enabled = !cargando,
                 shape = RoundedCornerShape(16.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = VerdeCanasta,
-                    contentColor = Color.White,
-                    disabledContainerColor = VerdeCanasta.copy(alpha = 0.6f),
-                    disabledContentColor = Color.White
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary,
+                    disabledContainerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.6f),
+                    disabledContentColor = MaterialTheme.colorScheme.onPrimary
                 ),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -197,7 +194,7 @@ fun LoginScreen(
             ) {
                 if (cargando) {
                     CircularProgressIndicator(
-                        color = Color.White,
+                        color = MaterialTheme.colorScheme.onPrimary,
                         strokeWidth = 2.dp,
                         modifier = Modifier.size(24.dp)
                     )
@@ -216,7 +213,7 @@ fun LoginScreen(
 
             Text(
                 text = stringResource(R.string.primera_vez),
-                color = MarronTexto,
+                color = MaterialTheme.colorScheme.tertiary,
                 fontWeight = FontWeight.Bold,
                 fontSize = 14.sp
             )
@@ -224,7 +221,7 @@ fun LoginScreen(
             TextButton(onClick = onRegistrarseClick, enabled = !cargando) {
                 Text(
                     text = stringResource(R.string.boton_registrarse),
-                    color = VerdeCanasta,
+                    color = MaterialTheme.colorScheme.primary,
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp,
                     textDecoration = TextDecoration.Underline

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Canasta Verde</string>
+    <string name="logo_canasta_verde">Logo de Canasta Verde</string>
+    <string name="logo_lata">Powered by LATA</string>
+    <string name="foto_bienvenida">Mujer comprando frutas y verduras con su teléfono</string>
+    <string name="bienvenida_titulo">Ready to start a greener life?</string>
+    <string name="boton_ingresar">Log In</string>
+    <string name="primera_vez">First time here?</string>
+    <string name="boton_registrarse">Sign Up</string>
+    <string name="foto_registro">Familia comprando frutas y verduras en el supermercado</string>
+    <string name="registro_titulo">Just one step away from making your life greener</string>
+    <string name="hint_correo">Email address</string>
+    <string name="hint_contrasena">Password</string>
+    <string name="boton_crear_cuenta">Sign Up</string>
+    <string name="foto_login">Mujer tomando un producto de un estante del supermercado</string>
+    <string name="login_titulo">Welcome back!</string>
+    <string name="boton_iniciar_sesion">Log In</string>
+    <string name="hint_busqueda">Search products or categories</string>
+    <string name="boton_cerrar_sesion">Log Out</string>
+
+    <!-- Home Screen -->
+    <string name="home_descripcion_abrir_menu">Open menu</string>
+    <string name="home_descripcion_cerrar_menu">Close menu</string>
+    <string name="home_descripcion_buscar">Search</string>
+    <string name="home_descripcion_anterior">Previous</string>
+    <string name="home_descripcion_siguiente">Next</string>
+    <string name="home_descripcion_carrito">Cart</string>
+    <string name="home_boton_reintentar">Retry</string>
+    <string name="home_boton_probar_notificacion">Test notification</string>
+    <string name="home_no_se_encontraron_productos">No products found.</string>
+    <string name="home_no_hay_productos_disponibles">No products available yet.</string>
+    <string name="home_simbolo_mas">+</string>
+    <string name="home_simbolo_menos">-</string>
+</resources>
