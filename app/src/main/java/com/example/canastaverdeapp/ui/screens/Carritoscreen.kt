@@ -19,9 +19,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -31,14 +31,9 @@ import coil3.compose.AsyncImage
 import com.example.canastaverdeapp.CartItem
 import com.example.canastaverdeapp.FirestoreRepository
 import com.example.canastaverdeapp.Producto
-import com.example.canastaverdeapp.ui.theme.VerdeCanasta
+import com.example.canastaverdeapp.R
 import kotlinx.coroutines.launch
 import java.util.Locale
-
-val VerdeOscuro = Color(0xFF1B5E20)
-val VerdePildora = Color(0xFF6BA768)
-val CafeTitulo = Color(0xFF7A4F00)
-val GrisClaro = Color(0xFFEEEEEE)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -90,8 +85,8 @@ fun CarritoScreen(
             ModalDrawerSheet(
                 modifier = Modifier.width(250.dp),
                 drawerShape = RectangleShape,
-                drawerContainerColor = VerdeCanasta,
-                drawerContentColor = Color.White
+                drawerContainerColor = MaterialTheme.colorScheme.primary,
+                drawerContentColor = MaterialTheme.colorScheme.onPrimary
             ) {
                 ContenidoMenu(
                     correo = correoUsuario,
@@ -102,7 +97,7 @@ fun CarritoScreen(
         }
     ) {
         Scaffold(
-            containerColor = Color.White,
+            containerColor = MaterialTheme.colorScheme.background,
             topBar = {
                 if (!pedidoRealizado) {
                     Row(
@@ -116,8 +111,8 @@ fun CarritoScreen(
                         IconButton(onClick = { scope.launch { drawerState.open() } }) {
                             Icon(
                                 imageVector = Icons.Default.Menu,
-                                contentDescription = "Abrir menú",
-                                tint = VerdeCanasta,
+                                contentDescription = stringResource(R.string.home_descripcion_abrir_menu),
+                                tint = MaterialTheme.colorScheme.primary,
                                 modifier = Modifier.size(34.dp)
                             )
                         }
@@ -141,22 +136,22 @@ fun CarritoScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(50.dp)
-                                .background(VerdeOscuro)
+                                .background(MaterialTheme.colorScheme.primary)
                         )
                         Box(
                             modifier = Modifier
                                 .align(Alignment.TopCenter)
                                 .size(72.dp)
                                 .clip(CircleShape)
-                                .background(Color.White)
-                                .border(4.dp, VerdeOscuro, CircleShape)
+                                .background(MaterialTheme.colorScheme.surface)
+                                .border(4.dp, MaterialTheme.colorScheme.primary, CircleShape)
                                 .clickable { onVolverAlMenu() },
                             contentAlignment = Alignment.Center
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Home,
-                                contentDescription = "Home",
-                                tint = VerdeOscuro,
+                                contentDescription = stringResource(R.string.carrito_descripcion_home),
+                                tint = MaterialTheme.colorScheme.primary,
                                 modifier = Modifier.size(38.dp)
                             )
                         }
@@ -167,28 +162,28 @@ fun CarritoScreen(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color.White)
+                    .background(MaterialTheme.colorScheme.background)
             ) {
                 if (pedidoRealizado) {
                     // PANTALLA DE ÉXITO ("¡Tu pedido fue realizado!")
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
-                            .background(Color.White)
+                            .background(MaterialTheme.colorScheme.background)
                             .padding(paddingValues),
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center
                     ) {
                         Icon(
                             imageVector = Icons.Outlined.ShoppingCart,
-                            contentDescription = "Carrito",
-                            tint = VerdeOscuro,
+                            contentDescription = stringResource(R.string.home_descripcion_carrito),
+                            tint = MaterialTheme.colorScheme.primary,
                             modifier = Modifier.size(120.dp)
                         )
                         Spacer(modifier = Modifier.height(24.dp))
                         Text(
-                            text = "¡Tu pedido fue\nrealizado!",
-                            color = CafeTitulo,
+                            text = stringResource(R.string.carrito_pedido_realizado),
+                            color = MaterialTheme.colorScheme.tertiary,
                             fontSize = 32.sp,
                             fontWeight = FontWeight.ExtraBold,
                             textAlign = TextAlign.Center,
@@ -200,7 +195,10 @@ fun CarritoScreen(
                                 carritoViewModel.vaciarCarrito()
                                 onVolverAlMenu()
                             },
-                            colors = ButtonDefaults.buttonColors(containerColor = VerdeOscuro),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = MaterialTheme.colorScheme.primary,
+                                contentColor = MaterialTheme.colorScheme.onPrimary
+                            ),
                             shape = RoundedCornerShape(30.dp),
                             modifier = Modifier
                                 .height(60.dp)
@@ -209,14 +207,14 @@ fun CarritoScreen(
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 Icon(
                                     imageVector = Icons.Default.Home,
-                                    contentDescription = "Home",
-                                    tint = Color.White,
+                                    contentDescription = stringResource(R.string.carrito_descripcion_home),
+                                    tint = MaterialTheme.colorScheme.onPrimary,
                                     modifier = Modifier.size(28.dp)
                                 )
                                 Spacer(modifier = Modifier.width(12.dp))
                                 Text(
-                                    text = "Volver al menú",
-                                    color = Color.White,
+                                    text = stringResource(R.string.carrito_boton_volver_al_menu),
+                                    color = MaterialTheme.colorScheme.onPrimary,
                                     fontSize = 20.sp,
                                     fontWeight = FontWeight.Bold
                                 )
@@ -228,18 +226,18 @@ fun CarritoScreen(
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
-                            .background(Color.White)
+                            .background(MaterialTheme.colorScheme.background)
                             .padding(paddingValues)
                             .padding(horizontal = 24.dp)
                     ) {
                         Text(
-                            text = "CARRITO",
-                            color = CafeTitulo,
+                            text = stringResource(R.string.carrito_titulo).uppercase(),
+                            color = MaterialTheme.colorScheme.tertiary,
                             fontSize = 28.sp,
                             fontWeight = FontWeight.ExtraBold
                         )
                         HorizontalDivider(
-                            color = VerdePildora,
+                            color = MaterialTheme.colorScheme.primaryContainer,
                             thickness = 2.dp,
                             modifier = Modifier.padding(top = 8.dp, bottom = 16.dp)
                         )
@@ -252,8 +250,8 @@ fun CarritoScreen(
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
-                                    text = "Tu carrito está vacío",
-                                    color = Color.Gray,
+                                    text = stringResource(R.string.carrito_vacio),
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                                     fontSize = 18.sp,
                                     fontWeight = FontWeight.SemiBold
                                 )
@@ -271,7 +269,7 @@ fun CarritoScreen(
                         }
 
                         HorizontalDivider(
-                            color = GrisClaro,
+                            color = MaterialTheme.colorScheme.outlineVariant,
                             thickness = 2.dp,
                             modifier = Modifier.padding(vertical = 16.dp)
                         )
@@ -282,14 +280,14 @@ fun CarritoScreen(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
-                                text = "SUBTOTAL",
-                                color = CafeTitulo,
+                                text = stringResource(R.string.carrito_subtotal).uppercase(),
+                                color = MaterialTheme.colorScheme.tertiary,
                                 fontSize = 24.sp,
                                 fontWeight = FontWeight.ExtraBold
                             )
                             Text(
                                 text = "$${String.format(Locale.US, "%.3f", total)}",
-                                color = CafeTitulo,
+                                color = MaterialTheme.colorScheme.tertiary,
                                 fontSize = 24.sp,
                                 fontWeight = FontWeight.ExtraBold
                             )
@@ -300,17 +298,22 @@ fun CarritoScreen(
                         Button(
                             onClick = { pedidoRealizado = true },
                             enabled = itemsCarrito.isNotEmpty(),
-                            colors = ButtonDefaults.buttonColors(containerColor = VerdeOscuro),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = MaterialTheme.colorScheme.primary,
+                                contentColor = MaterialTheme.colorScheme.onPrimary,
+                                disabledContainerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.6f),
+                                disabledContentColor = MaterialTheme.colorScheme.onPrimary
+                            ),
                             shape = RoundedCornerShape(30.dp),
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(60.dp)
                         ) {
                             Text(
-                                text = "REALIZAR PEDIDO",
+                                text = stringResource(R.string.carrito_boton_realizar_pedido).uppercase(),
                                 fontSize = 22.sp,
                                 fontWeight = FontWeight.ExtraBold,
-                                color = Color.White
+                                color = MaterialTheme.colorScheme.onPrimary
                             )
                         }
                         Spacer(modifier = Modifier.height(16.dp))
@@ -321,7 +324,7 @@ fun CarritoScreen(
                 if (!pedidoRealizado && busqueda.trim().isNotEmpty()) {
                     Card(
                         shape = RoundedCornerShape(16.dp),
-                        colors = CardDefaults.cardColors(containerColor = Color.White),
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
                         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
                         modifier = Modifier
                             .fillMaxWidth()
@@ -341,10 +344,13 @@ fun CarritoScreen(
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Text(
-                                    text = "PRODUCTOS DE LA TIENDA (${resultadosBusqueda.size})",
+                                    text = stringResource(
+                                        R.string.carrito_productos_tienda,
+                                        resultadosBusqueda.size
+                                    ).uppercase(),
                                     fontSize = 12.sp,
                                     fontWeight = FontWeight.Bold,
-                                    color = CafeTitulo
+                                    color = MaterialTheme.colorScheme.tertiary
                                 )
                                 IconButton(
                                     onClick = { busqueda = "" },
@@ -352,14 +358,18 @@ fun CarritoScreen(
                                 ) {
                                     Icon(
                                         imageVector = Icons.Default.Close,
-                                        contentDescription = "Cerrar búsqueda",
-                                        tint = Color.Gray,
+                                        contentDescription = stringResource(R.string.carrito_descripcion_cerrar_busqueda),
+                                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
                                         modifier = Modifier.size(18.dp)
                                     )
                                 }
                             }
 
-                            HorizontalDivider(color = GrisClaro, thickness = 1.dp, modifier = Modifier.padding(vertical = 8.dp))
+                            HorizontalDivider(
+                                color = MaterialTheme.colorScheme.outlineVariant,
+                                thickness = 1.dp,
+                                modifier = Modifier.padding(vertical = 8.dp)
+                            )
 
                             if (cargandoProductosTienda) {
                                 Box(
@@ -368,7 +378,10 @@ fun CarritoScreen(
                                         .height(80.dp),
                                     contentAlignment = Alignment.Center
                                 ) {
-                                    CircularProgressIndicator(color = VerdeOscuro, modifier = Modifier.size(28.dp))
+                                    CircularProgressIndicator(
+                                        color = MaterialTheme.colorScheme.primary,
+                                        modifier = Modifier.size(28.dp)
+                                    )
                                 }
                             } else if (resultadosBusqueda.isEmpty()) {
                                 Box(
@@ -378,8 +391,8 @@ fun CarritoScreen(
                                     contentAlignment = Alignment.Center
                                 ) {
                                     Text(
-                                        text = "No se encontraron productos en la tienda.",
-                                        color = Color.Gray,
+                                        text = stringResource(R.string.carrito_no_se_encontraron_tienda),
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                                         fontSize = 14.sp
                                     )
                                 }
@@ -417,7 +430,7 @@ private fun ItemMiniMenuTienda(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(8.dp))
-            .background(GrisClaro)
+            .background(MaterialTheme.colorScheme.surfaceVariant)
             .padding(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -425,7 +438,7 @@ private fun ItemMiniMenuTienda(
             modifier = Modifier
                 .size(44.dp)
                 .clip(RoundedCornerShape(6.dp))
-                .background(VerdeOscuro)
+                .background(MaterialTheme.colorScheme.primary)
         ) {
             if (producto.imagenUrl.isNotEmpty()) {
                 AsyncImage(
@@ -442,6 +455,7 @@ private fun ItemMiniMenuTienda(
         Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = producto.nombre,
+                color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.Bold,
                 fontSize = 13.sp,
                 maxLines = 1,
@@ -449,7 +463,7 @@ private fun ItemMiniMenuTienda(
             )
             Text(
                 text = "$${String.format(Locale.US, "%.3f", producto.precio)}",
-                color = CafeTitulo,
+                color = MaterialTheme.colorScheme.tertiary,
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 12.sp
             )
@@ -459,14 +473,20 @@ private fun ItemMiniMenuTienda(
 
         Button(
             onClick = onAgregar,
-            colors = ButtonDefaults.buttonColors(containerColor = VerdeOscuro),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary
+            ),
             shape = RoundedCornerShape(20.dp),
             contentPadding = PaddingValues(horizontal = 10.dp, vertical = 2.dp),
             modifier = Modifier.height(32.dp)
         ) {
             Text(
-                text = if (cantidadEnCarrito > 0) "+ ($cantidadEnCarrito)" else "+ Agregar",
-                color = Color.White,
+                text = if (cantidadEnCarrito > 0)
+                    stringResource(R.string.carrito_boton_mas_cantidad, cantidadEnCarrito)
+                else
+                    stringResource(R.string.carrito_boton_agregar),
+                color = MaterialTheme.colorScheme.onPrimary,
                 fontSize = 11.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -486,7 +506,7 @@ fun ItemCarritoVista(item: CartItem, onSumar: () -> Unit, onRestar: () -> Unit) 
             modifier = Modifier
                 .size(70.dp)
                 .clip(RoundedCornerShape(8.dp))
-                .background(VerdeOscuro)
+                .background(MaterialTheme.colorScheme.primary)
         ) {
             if (item.producto.imagenUrl.isNotEmpty()) {
                 AsyncImage(
@@ -503,6 +523,7 @@ fun ItemCarritoVista(item: CartItem, onSumar: () -> Unit, onRestar: () -> Unit) 
         Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = item.producto.nombre,
+                color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.Bold,
                 fontSize = 14.sp
             )
@@ -514,13 +535,13 @@ fun ItemCarritoVista(item: CartItem, onSumar: () -> Unit, onRestar: () -> Unit) 
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 modifier = Modifier
                     .clip(RoundedCornerShape(50))
-                    .background(VerdePildora)
+                    .background(MaterialTheme.colorScheme.secondary)
                     .width(90.dp)
                     .padding(vertical = 4.dp)
             ) {
                 Text(
-                    text = "-",
-                    color = Color.White,
+                    text = stringResource(R.string.home_simbolo_menos),
+                    color = MaterialTheme.colorScheme.onSecondary,
                     fontWeight = FontWeight.ExtraBold,
                     fontSize = 18.sp,
                     modifier = Modifier
@@ -529,13 +550,13 @@ fun ItemCarritoVista(item: CartItem, onSumar: () -> Unit, onRestar: () -> Unit) 
                 )
                 Text(
                     text = item.cantidad.toString(),
-                    color = Color.White,
+                    color = MaterialTheme.colorScheme.onSecondary,
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp
                 )
                 Text(
-                    text = "+",
-                    color = Color.White,
+                    text = stringResource(R.string.home_simbolo_mas),
+                    color = MaterialTheme.colorScheme.onSecondary,
                     fontWeight = FontWeight.ExtraBold,
                     fontSize = 18.sp,
                     modifier = Modifier
@@ -547,9 +568,10 @@ fun ItemCarritoVista(item: CartItem, onSumar: () -> Unit, onRestar: () -> Unit) 
 
         Text(
             text = "$${String.format(Locale.US, "%.3f", item.subtotal)}",
+            color = MaterialTheme.colorScheme.onSurface,
             fontWeight = FontWeight.ExtraBold,
             fontSize = 18.sp
         )
     }
-    HorizontalDivider(color = GrisClaro, thickness = 1.dp)
+    HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant, thickness = 1.dp)
 }

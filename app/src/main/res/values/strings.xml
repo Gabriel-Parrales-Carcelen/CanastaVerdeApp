@@ -31,4 +31,18 @@
     <string name="home_no_hay_productos_disponibles">Aún no hay productos disponibles.</string>
     <string name="home_simbolo_mas">+</string>
     <string name="home_simbolo_menos">-</string>
+
+    <!-- Carrito y Pedido Realizado -->
+    <string name="carrito_titulo">Carrito</string>
+    <string name="carrito_pedido_realizado">¡Tu pedido fue\nrealizado!</string>
+    <string name="carrito_boton_volver_al_menu">Volver al menú</string>
+    <string name="carrito_vacio">Tu carrito está vacío</string>
+    <string name="carrito_subtotal">Subtotal</string>
+    <string name="carrito_boton_realizar_pedido">Realizar pedido</string>
+    <string name="carrito_productos_tienda">Productos de la tienda (%1$d)</string>
+    <string name="carrito_no_se_encontraron_tienda">No se encontraron productos en la tienda.</string>
+    <string name="carrito_boton_agregar">+ Agregar</string>
+    <string name="carrito_boton_mas_cantidad">+ (%1$d)</string>
+    <string name="carrito_descripcion_home">Inicio</string>
+    <string name="carrito_descripcion_cerrar_busqueda">Cerrar búsqueda</string>
 </resources>

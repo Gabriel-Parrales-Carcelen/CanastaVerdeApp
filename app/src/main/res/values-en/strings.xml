@@ -32,4 +32,18 @@
     <string name="home_no_hay_productos_disponibles">No products available yet.</string>
     <string name="home_simbolo_mas">+</string>
     <string name="home_simbolo_menos">-</string>
+
+    <!-- Carrito y Pedido Realizado -->
+    <string name="carrito_titulo">Cart</string>
+    <string name="carrito_pedido_realizado">Your order has been\nplaced!</string>
+    <string name="carrito_boton_volver_al_menu">Back to menu</string>
+    <string name="carrito_vacio">Your cart is empty</string>
+    <string name="carrito_subtotal">Subtotal</string>
+    <string name="carrito_boton_realizar_pedido">Place order</string>
+    <string name="carrito_productos_tienda">Store products (%1$d)</string>
+    <string name="carrito_no_se_encontraron_tienda">No products found in store.</string>
+    <string name="carrito_boton_agregar">+ Add</string>
+    <string name="carrito_boton_mas_cantidad">+ (%1$d)</string>
+    <string name="carrito_descripcion_home">Home</string>
+    <string name="carrito_descripcion_cerrar_busqueda">Close search</string>
 </resources>
