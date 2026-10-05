@@ -762,12 +762,12 @@ private fun BarraInferior(
                         .padding(top = 8.dp, end = 8.dp)
                         .size(22.dp)
                         .clip(CircleShape)
-                        .background(Color(0xFFE53935)),
+                        .background(MaterialTheme.colorScheme.error),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
                         text = if (cantidadTotal > 99) "99+" else cantidadTotal.toString(),
-                        color = Color.White,
+                        color = MaterialTheme.colorScheme.onError,
                         fontSize = 11.sp,
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Center
